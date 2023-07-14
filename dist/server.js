@@ -23,14 +23,53 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 
 // src/server.ts
-var import_express = __toESM(require("express"));
+var import_express2 = __toESM(require("express"));
 var import_dotenv = __toESM(require("dotenv"));
-var app = (0, import_express.default)();
+
+// src/routes/user.routing.ts
+var import_express = __toESM(require("express"));
+
+// src/usecases/users/read-posts/read-post-service.ts
+var ReadPostService = class {
+  execute() {
+    return [
+      {
+        title: "Hello World",
+        content: "Hello World",
+        author: "Hello World",
+        date: "Hello World"
+      }
+    ];
+  }
+};
+var read_post_service_default = new ReadPostService();
+
+// src/usecases/users/read-posts/read-post-controller.ts
+var ReadPostController = class {
+  async execute(req, res) {
+    const test = await read_post_service_default.execute();
+    return res.send(test).status(200);
+  }
+};
+
+// src/routes/user.routing.ts
+var routerUser = import_express.default.Router();
+var readPostController = new ReadPostController();
+routerUser.get("/", readPostController.execute);
+
+// src/interceptors/logs.ts
+function logActionsUser(req, res, next) {
+  console.log(`\u{1F440} ${req.method} - user${req.path}`);
+  next();
+}
+
+// src/server.ts
+var app = (0, import_express2.default)();
 var port = process.env.PORT || 3e3;
 import_dotenv.default.config();
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+app.use(import_express2.default.json());
+app.use(import_express2.default.urlencoded({ extended: true }));
+app.use("/user", logActionsUser, routerUser);
 app.listen(port, () => {
   console.log(`\u{1F525} Server is  running at http://localhost:${port}`);
 });
