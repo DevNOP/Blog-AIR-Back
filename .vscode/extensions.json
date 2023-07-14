@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "steoates.autoimport",
+        "streetsidesoftware.code-spell-checker-portuguese-brazilian",
+        "streetsidesoftware.code-spell-checker",
+        "mikestead.dotenv",
+        "dbaeumer.vscode-eslint",
+        "pkief.material-icon-theme",
+        "eamodio.gitlens",
+        "prisma.prisma"
+    ]
+}

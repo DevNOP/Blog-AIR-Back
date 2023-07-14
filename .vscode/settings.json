@@ -1,0 +1,12 @@
+{
+    "cSpell.words": [
+        "rocketseat",
+        "tsup",
+        "usecases"
+    ],
+    "workbench.iconTheme": "material-icon-theme",
+    "cSpell.language": "en,pt,pt_BR",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      },
+}
