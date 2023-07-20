@@ -1,13 +1,15 @@
-class ReadPostService {
-  execute() {
-    return [
-      {
-        title: 'Hello World',
-        content: 'Hello World',
-        author: 'Hello World',
-        date: 'Hello World',
-      },
-    ]
+import { Iservices } from './../interfaces/services-interface'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
+class ReadPostService implements Iservices {
+  async execute() {
+    try {
+      const result = await prisma.posts.findMany()
+      return { status: true, data: result }
+    } catch (error) {
+      return { status: false, error: 'Failed connection with DB' }
+    }
   }
 }
 

@@ -1,9 +1,14 @@
 import { Request, Response } from 'express'
-import ReadPostService from './read-post-service'
+import readPostService from './read-post-service'
 
 export class ReadPostController {
   async execute(req: Request, res: Response) {
-    const test = await ReadPostService.execute()
-    return res.send(test).status(200)
+    const result = await readPostService.execute()
+
+    if (result.status === false) {
+      return res.status(400).send(result.error)
+    }
+
+    return res.send(result.data).status(200)
   }
 }
