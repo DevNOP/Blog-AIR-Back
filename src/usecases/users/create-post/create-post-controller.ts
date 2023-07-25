@@ -14,12 +14,15 @@ export class CreatePostController {
 
     const { author, data, image } = req.body
 
-    const result = await createPostService.execute(author, data, image)
+    try {
+      const result = await createPostService.execute(author, data, image)
+      if (result.status === false) {
+        return res.status(400).send(result.error)
+      }
 
-    if (result.status === false) {
-      return res.status(400).send(result.error)
+      return res.send(result.data).status(200)
+    } catch (error) {
+      return res.status(500).json({ error: 'Erro interno do servidor.' })
     }
-
-    return res.send(result.data).status(200)
   }
 }
