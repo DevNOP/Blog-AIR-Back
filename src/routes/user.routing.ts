@@ -22,8 +22,6 @@ routerUser.post(
   createPostController.execute,
 )
 
-routerUser.delete('/:id', [param('id').isUUID()], deletePostController.execute)
-
 routerUser.put(
   '/:id',
   [param('id').isUUID()],
@@ -32,3 +30,5 @@ routerUser.put(
   [body('image').isString().isURL()],
   putPostController.execute,
 )
+
+routerUser.delete('/:id', [param('id').isUUID()], deletePostController.execute)

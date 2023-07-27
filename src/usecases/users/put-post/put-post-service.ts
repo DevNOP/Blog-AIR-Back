@@ -12,7 +12,7 @@ class PutPostService {
       })
 
       if (!posts) {
-        return { status: false, error: 'Post with given id not found' }
+        return { status: false, error: 'Post not found' }
       }
       const updatePost = await prisma.posts.update({
         where: {
@@ -27,7 +27,7 @@ class PutPostService {
 
       return { status: true, data: updatePost }
     } catch (error) {
-      return { status: false, error: 'Error updating post' }
+      throw new Error()
     }
   }
 }

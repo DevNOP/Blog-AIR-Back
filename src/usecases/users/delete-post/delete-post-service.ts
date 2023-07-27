@@ -10,7 +10,7 @@ class DeletePostService {
       },
     })
     if (posts.length === 0) {
-      throw new Error('This post not exist')
+      return { status: false, error: 'Post not found' }
     }
 
     try {
@@ -19,9 +19,9 @@ class DeletePostService {
           id,
         },
       })
-      return true
-    } catch (error: string | any) {
-      throw new Error(error)
+      return { status: true, message: 'Post deleted !!' }
+    } catch (error) {
+      throw new Error()
     }
   }
 }

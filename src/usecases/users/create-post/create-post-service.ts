@@ -4,7 +4,6 @@ const prisma = new PrismaClient()
 
 class CreatePostService {
   async execute(author: string, data: string, image: string) {
-    // Validar se o texto não exite no banco.
     try {
       const result = await prisma.posts.create({
         data: {
@@ -15,7 +14,7 @@ class CreatePostService {
       })
       return { status: true, data: result }
     } catch (error) {
-      return { status: false, error }
+      throw new Error()
     }
   }
 }

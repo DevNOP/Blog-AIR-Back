@@ -14,9 +14,14 @@ export class DeletePostController {
 
     try {
       const result = await deletePostService.execute(id)
-      return res.status(200).send(result)
+
+      if (result.status === false) {
+        return res.status(400).json({ message: result.error })
+      }
+
+      return res.status(200).json({ message: result.message })
     } catch (error) {
-      res.status(404).send(error)
+      return res.status(500).json({ error: 'Internal server error' })
     }
   }
 }
