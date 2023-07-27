@@ -4,7 +4,7 @@ import deletePostService from './delete-post-service'
 
 export class DeletePostController {
   async execute(req: Request, res: Response) {
-    const { id } = req.body
+    const id = req.params.id
 
     const errors = validationResult(req)
 
