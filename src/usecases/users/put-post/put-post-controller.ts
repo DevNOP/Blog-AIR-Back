@@ -11,7 +11,7 @@ export class PutPostController {
         error: errors.array()[0],
       })
     }
-    const id = req.params.id
+    const { id } = req.params
     const { author, data, image } = req.body
 
     try {
