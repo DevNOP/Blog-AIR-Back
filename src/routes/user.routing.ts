@@ -1,6 +1,6 @@
 import express from 'express'
 import { body, param } from 'express-validator'
-import { DeletePostController } from '../usecases/users/delete-post/delete-post-controller'
+import { DeletePostController } from '@usecases/users/delete-post/delete-post-controller'
 import { ReadPostController } from '../usecases/users/read-posts/read-post-controller'
 import { CreatePostController } from '../usecases/users/create-post/create-post-controller'
 import { PutPostController } from '../usecases/users/put-post/put-post-controller'
