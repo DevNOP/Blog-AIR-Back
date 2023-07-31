@@ -5,6 +5,7 @@ export function logActionsUser(
   res: Response,
   next: NextFunction,
 ) {
-  console.log(`👀 ${req.method} - user${req.path}`)
+  console.log(`👀 ${req.method} - user${req.path} `)
+
   next()
 }

@@ -1,13 +1,14 @@
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 class ReadPostService {
-  execute() {
-    return [
-      {
-        title: 'Hello World',
-        content: 'Hello World',
-        author: 'Hello World',
-        date: 'Hello World',
-      },
-    ]
+  async execute() {
+    try {
+      const result = await prisma.posts.findMany()
+      return { status: true, data: result }
+    } catch (error) {
+      throw new Error()
+    }
   }
 }
 

@@ -1,8 +1,8 @@
-import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
-import createPostService from './create-post-service'
+import { Request, Response } from 'express'
+import putPostService from './put-post-service'
 
-export class CreatePostController {
+export class PutPostController {
   async execute(req: Request, res: Response) {
     const errors = validationResult(req)
 
@@ -12,12 +12,17 @@ export class CreatePostController {
       })
     }
 
+    const { id } = req.params
     const { author, data, image } = req.body
 
     try {
-      const result = await createPostService.execute(author, data, image)
+      const result = await putPostService.execute(id, author, data, image)
 
-      return res.send(result.data).status(201)
+      if (result.status === false) {
+        return res.status(404).json({ message: result.error })
+      }
+
+      return res.send(result.data).status(200)
     } catch (error) {
       return res.status(500).json({ error: 'Internal server error' })
     }
