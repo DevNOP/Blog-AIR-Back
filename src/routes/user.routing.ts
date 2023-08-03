@@ -1,25 +1,20 @@
 import express from 'express'
 import { body, param } from 'express-validator'
-import { DeletePostController } from '@usecases/users/delete-post/delete-post-controller'
-import { ReadPostController } from '../usecases/users/read-posts/read-post-controller'
-import { CreatePostController } from '../usecases/users/create-post/create-post-controller'
-import { PutPostController } from '../usecases/users/put-post/put-post-controller'
+import { PostController } from '../modules/Post/post.controller'
 
 export const routerUser = express.Router()
 
-const readPostController = new ReadPostController()
-const createPostController = new CreatePostController()
-const deletePostController = new DeletePostController()
-const putPostController = new PutPostController()
+const postController = new PostController()
 
-routerUser.get('/', readPostController.execute)
+routerUser.get('/', postController.validationReq, postController.readPost)
 
 routerUser.post(
   '/',
   [body('author').isString().notEmpty()],
   [body('data').isString().notEmpty()],
   [body('image').isString().isURL()],
-  createPostController.execute,
+  postController.validationReq,
+  postController.createPost,
 )
 
 routerUser.put(
@@ -28,7 +23,13 @@ routerUser.put(
   [body('author').isString().notEmpty()],
   [body('data').isString().notEmpty()],
   [body('image').isString().isURL()],
-  putPostController.execute,
+  postController.validationReq,
+  postController.putPost,
 )
 
-routerUser.delete('/:id', [param('id').isUUID()], deletePostController.execute)
+routerUser.delete(
+  '/:id',
+  [param('id').isUUID()],
+  postController.validationReq,
+  postController.deletePost,
+)
