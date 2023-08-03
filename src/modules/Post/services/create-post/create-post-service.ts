@@ -1,17 +1,9 @@
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import CreatePostModel from '../../model/create'
 
 class CreatePostService {
   async execute(author: string, data: string, image: string) {
     try {
-      const result = await prisma.posts.create({
-        data: {
-          author,
-          data,
-          image,
-        },
-      })
+      const result = await CreatePostModel.createPost(author, data, image)
       return { status: true, data: result }
     } catch (error) {
       throw new Error()

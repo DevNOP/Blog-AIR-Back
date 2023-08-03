@@ -1,10 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import ReadPostModel from '../../model/read'
 
-const prisma = new PrismaClient()
 class ReadPostService {
   async execute() {
     try {
-      const result = await prisma.posts.findMany()
+      const result = await ReadPostModel.findAllPosts()
       return { status: true, data: result }
     } catch (error) {
       throw new Error()
