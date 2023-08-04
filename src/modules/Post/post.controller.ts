@@ -1,26 +1,11 @@
-import { NextFunction, Request, Response } from 'express'
-import { validationResult } from 'express-validator'
-
-import { Icontroller } from '../interfaces/Icontroller'
+import { Request, Response } from 'express'
 
 import createPostService from './services/create-post/create-post-service'
 import readPostService from './services/read-posts/read-post-service'
 import putPostService from './services/put-post/put-post-service'
 import deletePostService from './services/delete-post/delete-post-service'
 
-export class PostController implements Icontroller {
-  async validationReq(req: Request, res: Response, next: NextFunction) {
-    const errors = validationResult(req)
-
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        error: errors.array()[0],
-      })
-    }
-
-    return next()
-  }
-
+export class PostController {
   async createPost(req: Request, res: Response) {
     const { author, data, image } = req.body
 
