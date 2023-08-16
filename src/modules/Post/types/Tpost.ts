@@ -1,7 +1,7 @@
 export type Tpost = {
   id: string
-  author: string
+  title: string
   data: string
-  datePost: Date
-  image: string
+  imageURL: string
+  userId: string
 }

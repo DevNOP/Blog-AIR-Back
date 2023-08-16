@@ -5,12 +5,12 @@ const prisma = new PrismaClient()
 
 class ReadPostModel {
   async findAllPosts() {
-    const result: Array<Tpost> = await prisma.posts.findMany()
+    const result: Array<Tpost> = await prisma.post.findMany()
     return result
   }
 
   async findPostById(id: string) {
-    const result = await prisma.posts.findUnique({
+    const result = await prisma.post.findUnique({
       where: {
         id,
       },

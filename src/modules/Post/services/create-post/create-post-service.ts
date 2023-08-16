@@ -1,9 +1,15 @@
 import CreatePostModel from '../../model/create'
+import { Tpost } from '../../types/Tpost'
 
 class CreatePostService {
-  async execute(author: string, data: string, image: string) {
+  async execute({ userId, data, title, imageURL }: Tpost) {
     try {
-      const result = await CreatePostModel.createPost(author, data, image)
+      const result = await CreatePostModel.createPost(
+        userId,
+        title,
+        data,
+        imageURL,
+      )
       return { status: true, data: result }
     } catch (error) {
       throw new Error()

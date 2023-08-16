@@ -3,12 +3,18 @@ import { Tpost } from '../types/Tpost'
 const prisma = new PrismaClient()
 
 class CreatePostModel {
-  async createPost(author: string, data: string, image: string) {
-    const result: Tpost = await prisma.posts.create({
+  async createPost(
+    userId: string,
+    title: string,
+    data: string,
+    imageURL: string,
+  ) {
+    const result: Tpost = await prisma.post.create({
       data: {
-        author,
+        userId,
+        title,
         data,
-        image,
+        imageURL,
       },
     })
 
