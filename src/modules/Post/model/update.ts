@@ -5,18 +5,20 @@ const prisma = new PrismaClient()
 class UpdatePostModel {
   async updatePostById(
     id: string,
-    author: string,
+    userId: string,
+    title: string,
     data: string,
-    image: string,
+    imageURL: string,
   ) {
-    const result = await prisma.posts.update({
+    const result = await prisma.post.update({
       where: {
         id,
       },
       data: {
-        author,
+        userId,
+        title,
         data,
-        image,
+        imageURL,
       },
     })
 

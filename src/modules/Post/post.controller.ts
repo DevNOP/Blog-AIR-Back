@@ -1,3 +1,4 @@
+import { Tpost } from './types/Tpost'
 import { Request, Response } from 'express'
 
 import createPostService from './services/create-post/create-post-service'
@@ -7,10 +8,16 @@ import deletePostService from './services/delete-post/delete-post-service'
 
 export class PostController {
   async createPost(req: Request, res: Response) {
-    const { author, data, image } = req.body
+    const { userId, title, data, imageURL, id }: Tpost = req.body
 
     try {
-      const result = await createPostService.execute(author, data, image)
+      const result = await createPostService.execute({
+        id,
+        data,
+        imageURL,
+        title,
+        userId,
+      })
 
       return res.send(result.data).status(201)
     } catch (error) {
@@ -30,10 +37,16 @@ export class PostController {
 
   async putPost(req: Request, res: Response) {
     const { id } = req.params
-    const { author, data, image } = req.body
+    const { userId, title, data, imageURL } = req.body
 
     try {
-      const result = await putPostService.execute(id, author, data, image)
+      const result = await putPostService.execute(
+        id,
+        userId,
+        title,
+        data,
+        imageURL,
+      )
 
       if (result.status === false) {
         return res.status(404).json({ message: result.error })

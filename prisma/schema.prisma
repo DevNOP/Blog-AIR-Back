@@ -16,10 +16,126 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Posts {
-  id       String   @id() @default(uuid())
-  author   String
-  data     String
-  datePost DateTime @default(now())
-  image    String
+model User {
+  id       String @id() @default(uuid())
+  name     String
+  email    String
+  password String
+  imageURL String
+
+  permissions         Permissions   @relation(fields: [permissionsId], references: [id])
+  permissionsId       String
+  Posts               Post[]
+  commentsAsAuthor    CommentUser[] @relation("AuthorComment")
+  commentsAsRecipient CommentUser[] @relation("RecipientComment")
+  CommentPost         CommentPost[]
+  Wishes              Wishes[]
+}
+
+model Post {
+  id         String   @id() @default(uuid())
+  title      String
+  data       String
+  dateCreate DateTime @default(now())
+  imageURL   String
+  isEmphasis Boolean  @default(false)
+
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
+  PostTags    PostTags[]
+  CommentPost CommentPost[]
+}
+
+model Permissions {
+  id    String @id() @default(uuid())
+  areas String
+
+  User User[]
+}
+
+model Tag {
+  id       String     @id() @default(uuid())
+  name     String
+  PostTags PostTags[]
+}
+
+model PostTags {
+  postId String
+  tagId  String
+
+  post Post @relation(fields: [postId], references: [id])
+  tag  Tag  @relation(fields: [tagId], references: [id])
+
+  @@id([postId, tagId])
+}
+
+model CommentUser {
+  id         String   @id() @default(uuid())
+  data       String
+  dateCreate DateTime @default(now())
+
+  idUser     String
+  fromIdUser String
+
+  user                 User                   @relation("AuthorComment", fields: [idUser], references: [id])
+  fromUser             User                   @relation("RecipientComment", fields: [fromIdUser], references: [id])
+  ComplaintCommentUser ComplaintCommentUser[]
+}
+
+model CommentPost {
+  id         String   @id @default(uuid())
+  data       String
+  qntLike    Int
+  dateCreate DateTime @default(now())
+
+  userId String
+  postId String
+
+  user                 User                   @relation(fields: [userId], references: [id])
+  post                 Post                   @relation(fields: [postId], references: [id])
+  ComplaintCommentPost ComplaintCommentPost[]
+}
+
+model Quest {
+  id     String   @id @default(uuid())
+  data   String
+  Wishes Wishes[]
+}
+
+model Answer {
+  id     String   @id @default(uuid())
+  option String
+  Wishes Wishes[]
+}
+
+model Wishes {
+  userId   String
+  answerId String
+  questId  String
+
+  user   User   @relation(fields: [userId], references: [id])
+  answer Answer @relation(fields: [answerId], references: [id])
+  quest  Quest  @relation(fields: [questId], references: [id])
+
+  @@id([userId, answerId, questId])
+}
+
+model ComplaintCommentUser {
+  id         String   @id @default(uuid())
+  reason     String
+  dateCreate DateTime @default(now())
+
+  CommentUserId String
+
+  commentUser CommentUser @relation(fields: [CommentUserId], references: [id])
+}
+
+model ComplaintCommentPost {
+  id         String   @id @default(uuid())
+  reason     String
+  dateCreate DateTime @default(now())
+
+  CommentPostId String
+
+  commentPost CommentPost @relation(fields: [CommentPostId], references: [id])
 }

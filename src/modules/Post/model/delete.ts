@@ -3,7 +3,7 @@ const prisma = new PrismaClient()
 
 class DeletePostModel {
   async deletePostById(id: string) {
-    await prisma.posts.delete({
+    await prisma.post.delete({
       where: {
         id,
       },

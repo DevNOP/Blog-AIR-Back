@@ -11,9 +11,10 @@ routerUser.get('/', validationReq, postController.readPost)
 
 routerUser.post(
   '/',
-  [body('author').isString().notEmpty()],
+  [body('userId').isString().notEmpty()],
+  [body('title').isString().notEmpty()],
   [body('data').isString().notEmpty()],
-  [body('image').isString().isURL()],
+  [body('imageURL').isString().isURL()],
   validationReq,
   postController.createPost,
 )

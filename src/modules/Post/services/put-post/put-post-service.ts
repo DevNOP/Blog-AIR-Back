@@ -2,7 +2,13 @@ import ReadPostModel from '../../model/read'
 import UpdatePostModel from '../../model/update'
 
 class PutPostService {
-  async execute(id: string, author: string, data: string, image: string) {
+  async execute(
+    id: string,
+    userId: string,
+    title: string,
+    data: string,
+    imageURL: string,
+  ) {
     try {
       const posts = await ReadPostModel.findPostById(id)
 
@@ -11,9 +17,10 @@ class PutPostService {
       }
       const result = await UpdatePostModel.updatePostById(
         id,
-        author,
+        userId,
+        title,
         data,
-        image,
+        imageURL,
       )
 
       return { status: true, data: result }
