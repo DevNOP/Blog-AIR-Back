@@ -40,4 +40,17 @@ routerUser.delete(
   postController.deletePost,
 )
 
+
 routerUser.post('/registerGithub', accountController.createAccountForGithub)
+
+routerUser.post(
+  '/createUser',
+  [body('name').isString().notEmpty()],
+  [body('email').isString().notEmpty()],
+  [body('password').isString().notEmpty()],
+  [body('imageURL').isString().isURL()],
+  [body('permissionsId').isString().notEmpty()],
+  validationReq,
+  postController.createUser,
+)
+

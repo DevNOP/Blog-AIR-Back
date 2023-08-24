@@ -21,7 +21,7 @@ model User {
   name     String
   email    String?
   password String  @default("000000000")
-  imageURL String
+  imageURL String?
   bio      String?
   idGit    Int     @default(00000000)
   linkedinUrl String?
