@@ -9,8 +9,6 @@ export class AccountController {
   async createAccountForGithub(req: Request, res: Response) {
     const { code } = req.query as unknown as RequestCode
 
-    console.log(code)
-
     try {
       const result = await getTokenDataGithubService.getAccessToken(code)
       return res.send(result).status(201)

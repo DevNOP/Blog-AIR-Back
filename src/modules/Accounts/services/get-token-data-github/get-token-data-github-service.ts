@@ -1,8 +1,10 @@
 import dotenv from 'dotenv'
+import CreateAccountModel, { User } from '../../model/create'
+
 dotenv.config()
 
 type userGithub = {
-  login: string
+  html_url: string
   id: number
   avatar_url: string
   url: string
@@ -57,7 +59,22 @@ class GetTokenDataGithubService {
         return data
       })
 
-    return { tokenData, dataUser }
+    const user: User = {
+      name: dataUser.name,
+      email: dataUser.email,
+      imageURL: dataUser.avatar_url,
+      bio: dataUser.bio,
+      idGit: dataUser.id,
+      githubUrl: dataUser.html_url,
+    }
+
+    try {
+      const result = await CreateAccountModel.createAccount(user)
+
+      return { status: true, data: result }
+    } catch (error) {
+      throw new Error('Error when creating user')
+    }
   }
 }
 

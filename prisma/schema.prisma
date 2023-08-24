@@ -17,14 +17,19 @@ datasource db {
 }
 
 model User {
-  id       String @id() @default(uuid())
+  id       String  @id() @default(uuid())
   name     String
-  email    String
-  password String
+  email    String?
+  password String  @default("000000000")
   imageURL String
+  bio      String?
+  idGit    Int     @default(00000000)
+  linkedinUrl String?
+  githubUrl   String?
 
-  permissions         Permissions   @relation(fields: [permissionsId], references: [id])
-  permissionsId       String
+  permissionsId       String?
+  
+  permissions         Permissions?  @relation(fields: [permissionsId], references: [id])
   Posts               Post[]
   commentsAsAuthor    CommentUser[] @relation("AuthorComment")
   commentsAsRecipient CommentUser[] @relation("RecipientComment")
@@ -40,7 +45,8 @@ model Post {
   imageURL   String
   isEmphasis Boolean  @default(false)
 
-  user        User          @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
   userId      String
   PostTags    PostTags[]
   CommentPost CommentPost[]
