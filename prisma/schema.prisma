@@ -19,12 +19,12 @@ datasource db {
 model User {
   id       String @id() @default(uuid())
   name     String
-  email    String
+  email    String 
   password String
-  imageURL String
+  imageURL String?
 
-  permissions         Permissions   @relation(fields: [permissionsId], references: [id])
-  permissionsId       String
+  permissions         Permissions?   @relation(fields: [permissionsId], references: [id])
+  permissionsId       String?
   Posts               Post[]
   commentsAsAuthor    CommentUser[] @relation("AuthorComment")
   commentsAsRecipient CommentUser[] @relation("RecipientComment")
