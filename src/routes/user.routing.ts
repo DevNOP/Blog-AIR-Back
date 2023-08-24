@@ -35,3 +35,14 @@ routerUser.delete(
   validationReq,
   postController.deletePost,
 )
+
+routerUser.post(
+  '/createUser',
+  [body('name').isString().notEmpty()],
+  [body('email').isString().notEmpty()],
+  [body('password').isString().notEmpty()],
+  [body('imageURL').isString().isURL()],
+  [body('permissionsId').isString().notEmpty()],
+  validationReq,
+  postController.createUser,
+)

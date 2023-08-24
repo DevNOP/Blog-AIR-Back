@@ -5,6 +5,8 @@ import createPostService from './services/create-post/create-post-service'
 import readPostService from './services/read-posts/read-post-service'
 import putPostService from './services/put-post/put-post-service'
 import deletePostService from './services/delete-post/delete-post-service'
+import createUserService from '../Account/services/create-user-service'
+import { validationResult } from 'express-validator'
 
 export class PostController {
   async createPost(req: Request, res: Response) {
@@ -71,6 +73,35 @@ export class PostController {
       return res.status(200).json({ message: result.message })
     } catch (error) {
       return res.status(500).json({ error: 'Internal server error' })
+    }
+  }
+
+  async createUser(req: Request, res: Response) {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: errors.array()[0],
+      })
+    }
+
+    const { id, name, email, password, imageURL, permissionsId } = req.body
+
+    try {
+      const result = await createUserService.execute(
+        id,
+        name,
+        email,
+        password,
+        imageURL,
+        permissionsId,
+      )
+      if (result.status === false) {
+        return res.status(400).json({ message: result.data })
+      }
+
+      return res.send(result.data).status(201)
+    } catch (error) {
+      return res.status(500).json({ error: 'Erro interno do servidor' })
     }
   }
 }
