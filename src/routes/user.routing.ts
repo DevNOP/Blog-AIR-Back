@@ -1,11 +1,15 @@
 import express from 'express'
 import { body, param } from 'express-validator'
-import { PostController } from '../modules/Post/post.controller'
+
 import { validationReq } from './scripts/validationReq'
+
+import { PostController } from '../modules/Post/post.controller'
+import { AccountController } from '../modules/Accounts/account.controller'
 
 export const routerUser = express.Router()
 
 const postController = new PostController()
+const accountController = new AccountController()
 
 routerUser.get('/', validationReq, postController.readPost)
 
@@ -36,6 +40,9 @@ routerUser.delete(
   postController.deletePost,
 )
 
+
+routerUser.post('/registerGithub', accountController.createAccountForGithub)
+
 routerUser.post(
   '/createUser',
   [body('name').isString().notEmpty()],
@@ -46,3 +53,4 @@ routerUser.post(
   validationReq,
   postController.createUser,
 )
+
