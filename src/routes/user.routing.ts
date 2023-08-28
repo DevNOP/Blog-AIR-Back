@@ -5,11 +5,13 @@ import { validationReq } from './scripts/validationReq'
 
 import { PostController } from '../modules/Post/post.controller'
 import { AccountController } from '../modules/Accounts/account.controller'
+import { AuthController } from '../modules/Auth/auth.controller'
 
 export const routerUser = express.Router()
 
 const postController = new PostController()
 const accountController = new AccountController()
+const authController = new AuthController()
 
 routerUser.get('/', validationReq, postController.readPost)
 
@@ -40,7 +42,6 @@ routerUser.delete(
   postController.deletePost,
 )
 
-
 routerUser.post('/registerGithub', accountController.createAccountForGithub)
 
 routerUser.post(
@@ -54,3 +55,6 @@ routerUser.post(
   postController.createUser,
 )
 
+routerUser.post('/createToken', authController.createTokenTest)
+
+routerUser.post('/verifyToken', authController.verifyTokenTest)
