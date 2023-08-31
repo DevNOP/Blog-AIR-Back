@@ -50,9 +50,16 @@ routerUser.post(
   [body('email').isString().notEmpty()],
   [body('password').isString().notEmpty()],
   [body('imageURL').isString().isURL()],
-  [body('permissionsId').isString().notEmpty()],
   validationReq,
   postController.createUser,
+)
+
+routerUser.post(
+  '/login',
+  [body('email').isString().notEmpty()],
+  [body('password').isString().notEmpty()],
+  validationReq,
+  postController.login,
 )
 
 routerUser.post('/createToken', authController.createTokenTest)
