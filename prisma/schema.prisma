@@ -19,7 +19,7 @@ datasource db {
 model User {
   id       String  @id() @default(uuid())
   name     String
-  email    String?
+  email    String? @unique()
   password String  @default("000000000")
   imageURL String?
   bio      String?
@@ -56,7 +56,7 @@ model Permissions {
   id    String @id() @default(uuid())
   areas String
 
-  User User[]
+  User User[] 
 }
 
 model Tag {

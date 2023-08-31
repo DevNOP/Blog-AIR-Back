@@ -1,26 +1,39 @@
-import CreateUserModal from '../model/createUser'
+import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcrypt'
+const prisma = new PrismaClient()
 
 class CreateUserService {
   async execute(
-    id: string,
     name: string,
     email: string,
     password: string,
     imageURL: string,
-    permissionsId: string,
   ) {
     try {
-      const result = await CreateUserModal.execute(
-        id,
-        name,
-        email,
-        password,
-        imageURL,
-        permissionsId,
-      )
-      return { status: true, data: result }
+      const userExist = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      })
+
+      if (userExist) {
+        return { status: false, error: 'Este email ja está sendo usado' }
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10)
+
+      const createUser = await prisma.user.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+          imageURL,
+        },
+      })
+      return { status: true, data: createUser }
     } catch (error) {
-      throw new Error()
+      console.error('Erro ao criar o usuário:', error)
+      return { status: false, error: 'Erro ao criar o usuário:' }
     }
   }
 }
