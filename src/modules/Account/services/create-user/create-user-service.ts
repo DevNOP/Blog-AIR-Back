@@ -1,6 +1,7 @@
-import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
-const prisma = new PrismaClient()
+
+import readAccountModel from '../../model/read'
+import createAccountModel from '../../model/create'
 
 class CreateUserService {
   async execute(
@@ -10,11 +11,7 @@ class CreateUserService {
     imageURL: string,
   ) {
     try {
-      const userExist = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      })
+      const userExist = await readAccountModel.findAccountByEmail(email)
 
       if (userExist) {
         return { status: false, error: 'Este email ja está sendo usado' }
@@ -22,17 +19,15 @@ class CreateUserService {
 
       const hashedPassword = await bcrypt.hash(password, 10)
 
-      const createUser = await prisma.user.create({
-        data: {
-          name,
-          email,
-          password: hashedPassword,
-          imageURL,
-        },
+      const user = await createAccountModel.createAccount({
+        name,
+        email,
+        password: hashedPassword,
+        imageURL,
       })
-      return { status: true, data: createUser }
+
+      return { status: true, data: user }
     } catch (error) {
-      console.error('Erro ao criar o usuário:', error)
       return { status: false, error: 'Erro ao criar o usuário:' }
     }
   }

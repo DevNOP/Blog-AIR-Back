@@ -1,26 +1,13 @@
 import dotenv from 'dotenv'
-import CreateAccountModel, { User } from '../../model/create'
+import CreateAccountModel from '../../model/create'
+
+import { tokenGithub, userGithub, User } from '../../types/index'
 
 dotenv.config()
 
-type userGithub = {
-  html_url: string
-  id: number
-  avatar_url: string
-  url: string
-  name: string
-  location: string
-  email: string
-  bio: string
-}
-
-type tokenGithub = {
-  access_token: string
-  scope: string
-  token_type: string
-}
-
 class GetTokenDataGithubService {
+  // TODO: separate this method into two methods
+
   async getAccessToken(code: string) {
     const params =
       '?client_id=' +
@@ -44,20 +31,14 @@ class GetTokenDataGithubService {
       throw new Error('Failed to fetch GitHub token')
     }
 
-    const tokenData: tokenGithub = await tokenGithub.json() // Esperar pela resposta e transformar em JSON
+    const tokenData: tokenGithub = await tokenGithub.json()
 
     const dataUser: userGithub = await fetch('https://api.github.com/user', {
       method: 'GET',
       headers: {
         Authorization: 'Bearer ' + tokenData.access_token,
       },
-    })
-      .then((response) => {
-        return response.json()
-      })
-      .then((data) => {
-        return data
-      })
+    }).then((res) => res.json())
 
     const user: User = {
       name: dataUser.name,
