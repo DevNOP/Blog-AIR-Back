@@ -10,5 +10,7 @@ export function createTokenService(name: string) {
       subject: name,
     })
     return token
+  } else {
+    throw new Error('Error when creating token')
   }
 }

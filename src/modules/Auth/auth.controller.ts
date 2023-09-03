@@ -1,15 +1,21 @@
-import { createTokenService } from './services/create-token/create-token-service'
 import { Request, Response } from 'express'
-import { verifyTokenService } from './services/verify-token/verify-token-service'
+
+import loginService from './services/login/login-service'
 
 export class AuthController {
-  async createTokenTest(req: Request, res: Response) {
-    const tokenTest = createTokenService(req.body.name)
-    return res.send(tokenTest)
-  }
+  async login(req: Request, res: Response) {
+    const { email, password } = req.body
 
-  async verifyTokenTest(req: Request, res: Response) {
-    const result = verifyTokenService(req.body.token)
-    return res.send(result)
+    try {
+      const result = await loginService.execute(email, password)
+
+      if (result.status === false) {
+        return res.status(400).json({ message: result })
+      }
+
+      return res.send(result.data).status(201)
+    } catch (error) {
+      return res.status(500).json({ error: 'Erro interno do servidor' })
+    }
   }
 }
