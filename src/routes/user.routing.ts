@@ -4,7 +4,7 @@ import { body, param } from 'express-validator'
 import { validationReq } from './scripts/validationReq'
 
 import { PostController } from '../modules/Post/post.controller'
-import { AccountController } from '../modules/Accounts/account.controller'
+import { AccountController } from '../modules/Account/account.controller'
 import { AuthController } from '../modules/Auth/auth.controller'
 
 export const routerUser = express.Router()
@@ -51,7 +51,7 @@ routerUser.post(
   [body('password').isString().notEmpty()],
   [body('imageURL').isString().isURL()],
   validationReq,
-  postController.createUser,
+  accountController.createUser,
 )
 
 routerUser.post(
@@ -59,9 +59,5 @@ routerUser.post(
   [body('email').isString().notEmpty()],
   [body('password').isString().notEmpty()],
   validationReq,
-  postController.login,
+  authController.login,
 )
-
-routerUser.post('/createToken', authController.createTokenTest)
-
-routerUser.post('/verifyToken', authController.verifyTokenTest)

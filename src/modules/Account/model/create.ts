@@ -1,16 +1,6 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { User } from './../types/index'
+import { prisma } from '../../Prisma/index'
 
-export type User = {
-  name: string
-  email: string
-  password?: string
-  imageURL: string
-  bio?: string
-  idGit?: number
-  linkedinUrl?: string
-  githubUrl?: string
-}
 class CreateAccountModel {
   async createAccount(user: User) {
     try {
@@ -28,7 +18,6 @@ class CreateAccountModel {
       })
       return result
     } catch (error) {
-      console.log(error)
       throw new Error("Couldn't create user")
     }
   }

@@ -5,6 +5,8 @@ import dotenv from 'dotenv'
 import { routerUser } from './routes/user.routing'
 import { logActionsUser } from './interceptors/logs'
 
+dotenv.config()
+
 const app: Express = express()
 const port = process.env.PORT || 3000
 
