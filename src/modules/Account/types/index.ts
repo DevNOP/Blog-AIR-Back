@@ -19,7 +19,7 @@ export type User = {
   name: string
   email: string
   password?: string
-  imageURL: string
+  imageURL?: string
   bio?: string
   idGit?: number
   linkedinUrl?: string
