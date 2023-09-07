@@ -23,7 +23,7 @@ model User {
   password String  @default("000000000")
   imageURL String?
   bio      String?
-  idGit    Int     @default(00000000)
+  idGit    Int     @unique() @default(00000000)
   linkedinUrl String?
   githubUrl   String?
 

@@ -6,8 +6,6 @@ import { tokenGithub, userGithub, User } from '../../types/index'
 dotenv.config()
 
 class GetTokenDataGithubService {
-  // TODO: separate this method into two methods
-
   async getAccessToken(code: string) {
     const params =
       '?client_id=' +
@@ -27,29 +25,37 @@ class GetTokenDataGithubService {
       },
     )
 
-    if (!tokenGithub.ok) {
-      throw new Error('Failed to fetch GitHub token')
-    }
-
     const tokenData: tokenGithub = await tokenGithub.json()
 
-    const dataUser: userGithub = await fetch('https://api.github.com/user', {
+    return tokenData
+  }
+
+  async getUserInfo(token: string) {
+    const userInfo = await fetch('https://api.github.com/user', {
       method: 'GET',
       headers: {
-        Authorization: 'Bearer ' + tokenData.access_token,
+        Authorization: 'Bearer ' + token,
       },
-    }).then((res) => res.json())
+    })
 
-    const user: User = {
-      name: dataUser.name,
-      email: dataUser.email,
-      imageURL: dataUser.avatar_url,
-      bio: dataUser.bio,
-      idGit: dataUser.id,
-      githubUrl: dataUser.html_url,
-    }
+    const userData: userGithub = await userInfo.json()
+    return userData
+  }
 
+  async registerUser(code: string) {
     try {
+      const tokenData = await this.getAccessToken(code)
+      const userInfo = await this.getUserInfo(tokenData.access_token)
+
+      const user: User = {
+        name: userInfo.name,
+        email: userInfo.email,
+        imageURL: userInfo.avatar_url,
+        bio: userInfo.bio,
+        idGit: userInfo.id,
+        githubUrl: userInfo.html_url,
+      }
+
       const result = await CreateAccountModel.createAccount(user)
 
       return { status: true, data: result }

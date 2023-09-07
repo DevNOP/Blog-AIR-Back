@@ -2,17 +2,14 @@ import { Request, Response } from 'express'
 
 import getTokenDataGithubService from './services/create-user-for-github/create-user-for-github'
 import createUserService from './services/create-user/create-user-service'
-
-interface RequestCode {
-  code: string
-}
+import { RequestCode } from './types'
 
 export class AccountController {
   async createAccountForGithub(req: Request, res: Response) {
     const { code } = req.query as unknown as RequestCode
 
     try {
-      const result = await getTokenDataGithubService.getAccessToken(code)
+      const result = await getTokenDataGithubService.registerUser(code)
       return res.send(result).status(201)
     } catch (error) {
       return res.status(500).json({ error: 'Internal server error' })
