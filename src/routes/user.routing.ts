@@ -66,7 +66,7 @@ routerUser.post(
   [body('name').isString().notEmpty()],
   [body('email').isString().notEmpty()],
   validationReq,
-  accountController.putPassword,
+  accountController.putResetPassword,
 )
 
 routerUser.post(

@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 
 import getTokenDataGithubService from './services/create-user-for-github/create-user-for-github'
 import createUserService from './services/create-user/create-user-service'
-import putPasswordService from './services/put-password/put-password-service'
 import putResetPasswordService from './services/put-password/put-reset-password-service'
 
 interface RequestCode {
@@ -36,10 +35,13 @@ export class AccountController {
     }
   }
 
-  async putPassword(req: Request, res: Response) {
+  async initPasswordReset(req: Request, res: Response) {
     const { name, email } = req.body
     try {
-      const result = await putPasswordService.initiatePasswordReset(name, email)
+      const result = await putResetPasswordService.initiatePasswordReset(
+        name,
+        email,
+      )
       if (result.status === false) {
         return res.status(400).json({ message: result })
       }

@@ -3,10 +3,12 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-export function createTokenService(name: string, email: string) {
+type Timer = '1h' | '30m'
+
+export function createTokenService(name: string, email: string, time: Timer) {
   if (process.env.PRIVATE_KEY_JWT) {
-    const token = sign({ name, email }, process.env.PRIVATE_KEY_JWT, {
-      expiresIn: '1h',
+    const token = sign({ email }, process.env.PRIVATE_KEY_JWT, {
+      expiresIn: time,
       subject: name,
     })
     return token
