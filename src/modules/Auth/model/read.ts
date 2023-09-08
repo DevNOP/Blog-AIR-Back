@@ -7,6 +7,15 @@ class ReadAuthModel {
         where: {
           idGit: idGithub,
         },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          imageURL: true,
+          linkedinUrl: true,
+          githubUrl: true,
+          bio: true,
+        },
       })
 
       return result
