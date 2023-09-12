@@ -18,7 +18,7 @@ class LoginService {
         return { status: false, error: 'Email/Senha incorreto' }
       }
 
-      const loginToken = createTokenService(user.name)
+      const loginToken = createTokenService(user.name, email, '1h')
 
       return { status: true, data: { loginToken, user } }
     } catch (error) {

@@ -4,12 +4,7 @@ import readAccountModel from '../../model/read'
 import createAccountModel from '../../model/create'
 
 class CreateUserService {
-  async execute(
-    name: string,
-    email: string,
-    password: string,
-    imageURL: string,
-  ) {
+  async execute(name: string, email: string, password: string) {
     try {
       const userExist = await readAccountModel.findAccountByEmail(email)
 
@@ -23,7 +18,6 @@ class CreateUserService {
         name,
         email,
         password: hashedPassword,
-        imageURL,
       })
 
       return { status: true, data: user }
