@@ -66,9 +66,9 @@ routerUser.post(
   [query('code').isString().notEmpty()],
   validationReq,
   authController.loginGithub,
- )
+)
 
- routerUser.post(
+routerUser.post(
   '/forgot-password',
   [body('name').isString().notEmpty()],
   [body('email').isString().notEmpty()],

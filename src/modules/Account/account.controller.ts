@@ -6,7 +6,6 @@ import putResetPasswordService from './services/put-password/put-reset-password-
 
 import { RequestCode } from './types'
 
-
 export class AccountController {
   async createAccountForGithub(req: Request, res: Response) {
     const { code } = req.query as unknown as RequestCode
