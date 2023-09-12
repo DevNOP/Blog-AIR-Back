@@ -1,3 +1,7 @@
+export type RequestCode = {
+  code: string
+}
+
 export type userGithub = {
   html_url: string
   id: number

@@ -1,5 +1,5 @@
 import express from 'express'
-import { body, param } from 'express-validator'
+import { body, param, query } from 'express-validator'
 
 import { validationReq } from './scripts/validationReq'
 
@@ -62,6 +62,13 @@ routerUser.post(
 )
 
 routerUser.post(
+  '/loginGithub',
+  [query('code').isString().notEmpty()],
+  validationReq,
+  authController.loginGithub,
+ )
+
+ routerUser.post(
   '/forgot-password',
   [body('name').isString().notEmpty()],
   [body('email').isString().notEmpty()],
