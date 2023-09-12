@@ -49,7 +49,6 @@ routerUser.post(
   [body('name').isString().notEmpty()],
   [body('email').isString().notEmpty()],
   [body('password').isString().notEmpty()],
-  [body('imageURL').isString().isURL()],
   validationReq,
   accountController.createUser,
 )
@@ -60,4 +59,20 @@ routerUser.post(
   [body('password').isString().notEmpty()],
   validationReq,
   authController.login,
+)
+
+routerUser.post(
+  '/forgot-password',
+  [body('name').isString().notEmpty()],
+  [body('email').isString().notEmpty()],
+  validationReq,
+  accountController.putResetPassword,
+)
+
+routerUser.post(
+  '/reset-password',
+  [body('token').isString().notEmpty()],
+  [body('newPassword').isString().notEmpty()],
+  validationReq,
+  accountController.putResetPassword,
 )
