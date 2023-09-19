@@ -14,7 +14,7 @@ class PutResetPasswordService {
         return { status: false, error: 'Usuário não encontrado.' }
       }
 
-      const token = createTokenService(name, email, '30m')
+      const token = createTokenService(name, email, '30m', 'user')
 
       const resetPasswordLink = `https://spiderlinkers.com/reset-password?${token}`
 
