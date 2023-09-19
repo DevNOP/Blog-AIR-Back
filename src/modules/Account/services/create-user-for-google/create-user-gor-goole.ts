@@ -1,39 +1,43 @@
 import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2'
 import { prisma } from '../../../Prisma'
+import dotenv from 'dotenv'
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID:
-        '894120975620-jc0oaps4isi0n256h9aldebvsi2icmf6.apps.googleusercontent.com',
-      clientSecret: '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',
-      callbackURL: 'http://localhost:3000/auth/google/callback',
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        let user = await prisma.user.findUnique({
-          where: {
-            email: profile.emails[0].value,
-          },
-        })
+dotenv.config()
 
-        if (!user) {
-          user = await prisma.user.create({
-            data: {
+if (process.env.CLIENT_ID_GOOGLE && process.env.CLIENT_SECRET_GOOGLE) {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.CLIENT_ID_GOOGLE,
+        clientSecret: process.env.CLIENT_SECRET_GOOGLE,
+        callbackURL: 'http://localhost:3000/auth/google/callback',
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        try {
+          let user = await prisma.user.findUnique({
+            where: {
               email: profile.emails[0].value,
-              name: profile.displayName,
             },
           })
-        }
 
-        return done(null, user)
-      } catch (error) {
-        return done(error)
-      }
-    },
-  ),
-)
+          if (!user) {
+            user = await prisma.user.create({
+              data: {
+                email: profile.emails[0].value,
+                name: profile.displayName,
+              },
+            })
+          }
+
+          return done(null, user)
+        } catch (error) {
+          return done(error)
+        }
+      },
+    ),
+  )
+}
 
 passport.serializeUser((user: any, done) => {
   done(null, user.id)
