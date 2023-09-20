@@ -7,9 +7,9 @@ export function verifyTokenService(token: string) {
   try {
     if (process.env.PRIVATE_KEY_JWT) {
       verify(token, process.env.PRIVATE_KEY_JWT)
-      return 'Autorizado'
+      return true
     }
-  } catch {
-    return 'Não autorizado'
+  } catch (e) {
+    return false
   }
 }
