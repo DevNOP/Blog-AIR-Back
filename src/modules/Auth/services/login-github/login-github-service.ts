@@ -17,7 +17,7 @@ class LoginGithubService {
         throw new Error('User not found')
       }
 
-      const token = createTokenService(user.name, user.email, '1h')
+      const token = createTokenService(user.name, user.email, '1h', 'user')
       return { status: true, data: { userInfo: user, token } }
     } catch (error: any) {
       return { status: false, data: error.message }
